@@ -62,4 +62,4 @@ struct LoginView: View {
 #Preview {
     LoginView()
 }
-// 안녕 내이름은 이슬기 
+
