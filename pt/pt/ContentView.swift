@@ -3,64 +3,53 @@
 //  pt
 //
 //  Created by 송재곤 on 3/7/24.
-//
+
 
 import SwiftUI
+import RealmSwift
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
-struct LoginView: View {
+struct SignupView: View {// 회원가입
     @State private var username: String = ""
     @State private var password: String = ""
-    @State private var isLoggedIn: String = "0"
     
     var body: some View {
         VStack {
             TextField("사용자 이름", text: $username)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
             
             SecureField("비밀번호", text: $password)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
             Button(action: {
-                // 여기에 로그인 로직을 구현합니다.
-                if username == "user" && password == "password" {
-                    isLoggedIn = "1"
-                } else {
-                    isLoggedIn = "-1"
+                let newUser = User()
+                newUser.username = username
+                newUser.password = password
+                do {
+                    let realm = try Realm()
+                    try realm.write {
+                        realm.add(newUser)
+                    }
+                    // 가입 성공 처리
+                } catch {
+                    // 오류 처리
+                    print("오류: \(error)")
                 }
             }) {
-                Text("로그인")
+                Text("가입")
                     .padding()
                     .foregroundColor(.white)
                     .background(Color.blue)
                     .cornerRadius(10)
             }
-            
-            if isLoggedIn == "1" {
-                Text("로그인 성공!")
-            }else if isLoggedIn == "-1"{
-                Text("로그인 실패")
-            }
+            .padding()
         }
         .padding()
     }
 }
 
-#Preview {
-    LoginView()
-}
 
-aojdsfkjd
+
+
+
